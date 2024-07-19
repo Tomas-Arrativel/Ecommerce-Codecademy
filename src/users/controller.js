@@ -10,6 +10,7 @@ const getUsers = (req, res) => {
 
 const getUserById = (req, res) => {
 	const id = parseInt(req.params.id);
+
 	pool.query(queries.getUsersById, [id], (error, results) => {
 		if (error) throw error;
 		res.status(200).json(results.rows);
@@ -18,6 +19,7 @@ const getUserById = (req, res) => {
 
 const createUser = (req, res) => {
 	const { username, password, first_name, last_name } = req.body;
+
 	pool.query(queries.checkUsername, [username], (error, results) => {
 		if (results.rows.length) {
 			res.send("Username already exists");
@@ -35,8 +37,25 @@ const createUser = (req, res) => {
 	});
 };
 
+const deleteUser = (req, res) => {
+	const id = parseInt(req.params.id);
+
+	pool.query(queries.getUsersById, [id], (error, results) => {
+		if (error) throw error;
+		if (!results.rows.length) {
+			res.send("User does not exists");
+		} else {
+			pool.query(queries.deleteUser, [id], (error, results) => {
+				if (error) throw error;
+				res.status(200).send("User deleted Successfully");
+			});
+		}
+	});
+};
+
 module.exports = {
 	getUsers,
 	getUserById,
 	createUser,
+	deleteUser,
 };
