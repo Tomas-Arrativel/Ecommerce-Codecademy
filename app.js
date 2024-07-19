@@ -1,13 +1,15 @@
 const express = require("express");
-const ecomRoutes = require("./routes/index");
+const usersRoutes = require("./src/users/routes");
 
 const app = express();
+
+app.use(express.json());
 
 app.get("/", (req, res, next) => {
 	res.send("Hello world");
 });
 
-app.use("/api/ecommerce", ecomRoutes);
+app.use("/api/users", usersRoutes);
 
 const PORT = 8000;
 app.listen(PORT, () => {
