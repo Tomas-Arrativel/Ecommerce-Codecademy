@@ -16,7 +16,27 @@ const getUserById = (req, res) => {
 	});
 };
 
+const createUser = (req, res) => {
+	const { username, password, first_name, last_name } = req.body;
+	pool.query(queries.checkUsername, [username], (error, results) => {
+		if (results.rows.length) {
+			res.send("Username already exists");
+		} else {
+			// Create user if it doesn't exists
+			pool.query(
+				queries.createUser,
+				[username, password, first_name, last_name],
+				(error, results) => {
+					if (error) throw error;
+					res.status(201).send("User created successfully");
+				}
+			);
+		}
+	});
+};
+
 module.exports = {
 	getUsers,
 	getUserById,
+	createUser,
 };
