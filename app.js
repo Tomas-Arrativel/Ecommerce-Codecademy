@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const session = require("express-session");
 const usersRoutes = require("./src/users/routes");
 
@@ -6,7 +7,7 @@ const app = express();
 
 const getSecret = () => {
 	// Logic to get the secret
-	return process.env.SESSION_KEY || "ke3hj56ys8m6g2";
+	return process.env.SESSION_KEY;
 };
 
 app.use(express.json());

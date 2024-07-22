@@ -1,5 +1,6 @@
 const pool = require("../../db");
 const queries = require("./queries");
+const bcrypt = require("bcrypt");
 
 const getUsers = (req, res) => {
 	pool.query(queries.getUsers, (error, results) => {
@@ -17,8 +18,16 @@ const getUserById = (req, res) => {
 	});
 };
 
-const createUser = (req, res) => {
-	const { username, password, first_name, last_name } = req.body;
+const createUser = async (req, res) => {
+	let { username, password, first_name, last_name } = req.body;
+
+	// Hashing password
+	try {
+		const salt = await bcrypt.genSalt(3);
+		password = await bcrypt.hash(password, salt);
+	} catch (err) {
+		console.log(err);
+	}
 
 	pool.query(queries.checkUsername, [username], (error, results) => {
 		if (results.rows.length) {
