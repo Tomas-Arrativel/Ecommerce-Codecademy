@@ -64,23 +64,32 @@ const deleteUser = (req, res) => {
 
 const LogUser = (req, res) => {
 	const { username, password } = req.body;
-	if (username != "" && password != "") {
-		pool.query(
-			queries.getUserByLogin,
-			[username, password],
-			(error, results) => {
-				if (error) throw error;
-				if (!results.rows.length) {
-					res.send("The username or password is not correct");
-				} else {
-					req.session.username = username;
-					req.session.userId = results.rows[0].id;
-					req.session.fullName = `${results.rows[0].first_name} ${results.rows[0].last_name}`;
 
-					res.send(req.session);
-				}
+	if (username != "" && password != "") {
+		pool.query(queries.getUserByLogin, [username], async (error, results) => {
+			if (error) throw error;
+
+			// Comparing the plain password to the hashed one
+			let correctPass;
+			try {
+				const hash = results.rows[0].password;
+				correctPass = await bcrypt.compare(password, hash);
+			} catch (err) {
+				console.log(err);
 			}
-		);
+
+			// Check if there is an error in the username or password
+			if (!results.rows.length || !correctPass) {
+				res.send("The username or password is not correct");
+			} else {
+				// Creating the user to the session
+				req.session.username = username;
+				req.session.userId = results.rows[0].id;
+				req.session.fullName = `${results.rows[0].first_name} ${results.rows[0].last_name}`;
+
+				res.send(req.session);
+			}
+		});
 	}
 };
 

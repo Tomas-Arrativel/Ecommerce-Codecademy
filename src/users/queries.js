@@ -1,8 +1,7 @@
 // Gets
 const getUsers = "SELECT * FROM users";
 const getUserById = "SELECT * FROM users WHERE id = $1";
-const getUserByLogin =
-	"SELECT * FROM users WHERE username = $1 AND password = $2";
+const getUserByLogin = "SELECT * FROM users WHERE username = $1";
 
 // Checks
 const checkUsername = "SELECT u FROM users u WHERE u.username = $1";
