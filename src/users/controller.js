@@ -11,7 +11,7 @@ const getUsers = (req, res) => {
 const getUserById = (req, res) => {
 	const id = parseInt(req.params.id);
 
-	pool.query(queries.getUsersById, [id], (error, results) => {
+	pool.query(queries.getUserById, [id], (error, results) => {
 		if (error) throw error;
 		res.status(200).json(results.rows);
 	});
@@ -40,7 +40,7 @@ const createUser = (req, res) => {
 const deleteUser = (req, res) => {
 	const id = parseInt(req.params.id);
 
-	pool.query(queries.getUsersById, [id], (error, results) => {
+	pool.query(queries.getUserById, [id], (error, results) => {
 		if (error) throw error;
 		if (!results.rows.length) {
 			res.send("User does not exists");
@@ -53,9 +53,32 @@ const deleteUser = (req, res) => {
 	});
 };
 
+const LogUser = (req, res) => {
+	const { username, password } = req.body;
+	if (username != "" && password != "") {
+		pool.query(
+			queries.getUserByLogin,
+			[username, password],
+			(error, results) => {
+				if (error) throw error;
+				if (!results.rows.length) {
+					res.send("The username or password is not correct");
+				} else {
+					req.session.username = username;
+					req.session.userId = results.rows[0].id;
+					req.session.fullName = `${results.rows[0].first_name} ${results.rows[0].last_name}`;
+
+					res.send(req.session);
+				}
+			}
+		);
+	}
+};
+
 module.exports = {
 	getUsers,
 	getUserById,
 	createUser,
 	deleteUser,
+	LogUser,
 };
