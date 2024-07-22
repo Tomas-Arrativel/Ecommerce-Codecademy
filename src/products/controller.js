@@ -17,7 +17,25 @@ const getProductById = (req, res) => {
 	});
 };
 
+const createProduct = (req, res) => {
+	if (req.session.userId) {
+		const { product, price, rating, img } = req.body;
+
+		pool.query(
+			queries.createProduct,
+			[product, price, rating, img],
+			(error, results) => {
+				if (error) throw error;
+				res.status(200).send("Product published successfully");
+			}
+		);
+	} else {
+		res.status(403).send("You are not allow to do this!");
+	}
+};
+
 module.exports = {
 	getProducts,
 	getProductById,
+	createProduct,
 };
