@@ -14,6 +14,25 @@ const getProductsStored = (req, res) => {
 	}
 };
 
+const addToCart = (req, res) => {
+	const userId = req.session.userId;
+	const { productId, quantity } = req.body;
+
+	if (userId) {
+		pool.query(
+			queries.AddToCart,
+			[userId, productId, quantity],
+			(error, results) => {
+				if (error) throw error;
+				res.status(200).send("Product added to cart successfully");
+			}
+		);
+	} else {
+		res.status(403).send("You need to log in to add product to the cart");
+	}
+};
+
 module.exports = {
 	getProductsStored,
+	addToCart,
 };
