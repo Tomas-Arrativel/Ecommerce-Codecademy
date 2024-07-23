@@ -1,6 +1,7 @@
 // GETS
 const getProducts = "SELECT * FROM products LIMIT 25";
 const getProductById = "SELECT * FROM products WHERE id = $1";
+const getProductByCategory = "SELECT * FROM products WHERE category = $1";
 
 // POSTS
 const createProduct =
@@ -14,4 +15,5 @@ module.exports = {
 	getProductById,
 	createProduct,
 	deleteProduct,
+	getProductByCategory,
 };

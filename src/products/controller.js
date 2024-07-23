@@ -2,10 +2,23 @@ const pool = require("../../db");
 const queries = require("./queries");
 
 const getProducts = (req, res) => {
-	pool.query(queries.getProducts, (error, results) => {
-		if (error) throw error;
-		res.status(200).send(results.rows);
-	});
+	if (!req.query.cat) {
+		pool.query(queries.getProducts, (error, results) => {
+			if (error) throw error;
+			res.status(200).send(results.rows);
+		});
+	} else {
+		pool.query(
+			queries.getProductByCategory,
+			[req.query.cat],
+			(error, results) => {
+				if (error) throw error;
+				if (results.rows.length < 1)
+					return res.send("Cannot get any product with this category");
+				res.status(200).send(results.rows);
+			}
+		);
+	}
 };
 
 const getProductById = (req, res) => {
