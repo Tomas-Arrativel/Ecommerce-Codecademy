@@ -30,7 +30,20 @@ const createProduct = (req, res) => {
 			}
 		);
 	} else {
-		res.status(403).send("You are not allow to do this!");
+		res.status(403).send("You are not allowed to do this!");
+	}
+};
+
+const deleteProduct = (req, res) => {
+	const id = req.params.id;
+
+	if (req.session.userId == -1) {
+		pool.query(queries.deleteProduct, [id], (error, results) => {
+			if (error) throw error;
+			res.status(200).send("Product deleted successfully");
+		});
+	} else {
+		res.status(403).send("You are not allowed to do this!");
 	}
 };
 
@@ -38,4 +51,5 @@ module.exports = {
 	getProducts,
 	getProductById,
 	createProduct,
+	deleteProduct,
 };
