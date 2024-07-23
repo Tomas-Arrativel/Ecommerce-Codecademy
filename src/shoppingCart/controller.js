@@ -32,7 +32,28 @@ const addToCart = (req, res) => {
 	}
 };
 
+const deleteFromCart = (req, res) => {
+	const userId = req.session.userId;
+	const productId = req.params.productId;
+
+	if (userId) {
+		pool.query(
+			queries.deleteFromCart,
+			[userId, productId],
+			(error, results) => {
+				if (error) throw error;
+				res.status(200).send("Product deleted from cart successfully");
+			}
+		);
+	} else {
+		res
+			.status(403)
+			.send("You need to log in to delete a product from the cart");
+	}
+};
+
 module.exports = {
 	getProductsStored,
 	addToCart,
+	deleteFromCart,
 };
