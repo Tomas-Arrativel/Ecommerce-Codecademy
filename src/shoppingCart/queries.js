@@ -11,7 +11,9 @@ const getProductsStored = `SELECT u.username AS user,
                            WHERE s.user_id = $1`;
 
 // INSERTS
-const AddToCart = "INSERT INTO shopping_cart VALUES ($1, $2, $3)";
+const addToCart = "INSERT INTO shopping_cart VALUES ($1, $2, $3)";
+const newOrder =
+	"INSERT INTO orders (user_id, total_price, date) VALUES ($1, $2, NOW())";
 
 // DELETES
 const deleteFromCart =
@@ -19,6 +21,7 @@ const deleteFromCart =
 
 module.exports = {
 	getProductsStored,
-	AddToCart,
+	addToCart,
 	deleteFromCart,
+	newOrder,
 };

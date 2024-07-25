@@ -20,7 +20,7 @@ const addToCart = (req, res) => {
 
 	if (userId) {
 		pool.query(
-			queries.AddToCart,
+			queries.addToCart,
 			[userId, productId, quantity],
 			(error, results) => {
 				if (error) throw error;
@@ -66,16 +66,19 @@ const buyItemsInCart = (req, res) => {
 						parseInt(product.price.replace("$ ", "").replace(".", "")) *
 						product.quantity;
 					totalPrice += newNumber;
-					console.log(newNumber);
 				});
 
-				res.send(`${userId}, ${totalPrice}`);
+				// Insert the totalprice and the userid into orders if they exist
+				pool.query(queries.newOrder, [userId, totalPrice], (error, results) => {
+					if (error) throw error;
+					res.status(201).send("Order uploaded successfully");
+				});
+			} else {
+				res.send("This user does not have any product added to the cart");
 			}
 		});
 	} else {
-		res
-			.status(403)
-			.send("You need to log in to delete a product from the cart");
+		res.status(403).send("You need to log in to buy the products on the cart");
 	}
 };
 
