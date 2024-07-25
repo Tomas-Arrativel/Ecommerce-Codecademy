@@ -56,11 +56,13 @@ const buyItemsInCart = (req, res) => {
 	const userId = req.session.userId;
 
 	if (userId) {
+		// If the user is logged in, get the products in cart
 		pool.query(queries.getProductsStored, [userId], (error, results) => {
 			if (error) throw error;
 			if (results.rows.length >= 1) {
 				let totalPrice = 0;
 
+				// Loop through the products and make a totalPrice variable
 				results.rows.forEach((product) => {
 					const newNumber =
 						parseInt(product.price.replace("$ ", "").replace(".", "")) *
@@ -68,10 +70,22 @@ const buyItemsInCart = (req, res) => {
 					totalPrice += newNumber;
 				});
 
-				// Insert the totalprice and the userid into orders if they exist
-				pool.query(queries.newOrder, [userId, totalPrice], (error, results) => {
+				//If all the data is correct, the user will proceed to do the payment
+				pool.query(queries.deleteCartWhenBuying, [userId], (error, results) => {
 					if (error) throw error;
-					res.status(201).send("Order uploaded successfully");
+					// Insert the totalprice and the userid into orders if they exist
+					pool.query(
+						queries.newOrder,
+						[userId, totalPrice],
+						(error, results) => {
+							if (error) throw error;
+							res
+								.status(201)
+								.send(
+									"Congrats! Shopping cart bought successfully! the order is now available"
+								);
+						}
+					);
 				});
 			} else {
 				res.send("This user does not have any product added to the cart");

@@ -18,10 +18,12 @@ const newOrder =
 // DELETES
 const deleteFromCart =
 	"DELETE FROM shopping_cart WHERE user_id = $1 AND product_id = $2";
+const deleteCartWhenBuying = "DELETE FROM shopping_cart WHERE user_id = $1";
 
 module.exports = {
 	getProductsStored,
 	addToCart,
-	deleteFromCart,
 	newOrder,
+	deleteFromCart,
+	deleteCartWhenBuying,
 };
