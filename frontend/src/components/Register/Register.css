@@ -1,4 +1,4 @@
-.login {
+.register {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -7,44 +7,44 @@
 	background-color: var(--cream);
 }
 
-.login__form {
+.register__form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 600px;
-	gap: 5px;
+	gap: 10px;
 	background-color: var(--white);
 	padding: 2rem 2.5rem;
 	border-radius: 5px;
 }
 
-.login__form h2 {
+.register__form h2 {
 	color: var(--dark-brown);
 	width: 100%;
 	margin-bottom: 10px;
 }
 
-.login__form-input {
+.register__form-input {
 	width: 100%;
 }
 
-.login__form label {
+.register__form label {
 	width: 100%;
 	font-size: 1rem;
 }
-.login__form input {
+.register__form input {
 	width: 100%;
 	padding: 8px 13px;
 	font-size: 1rem;
 	border: 1px solid var(--dark-brown);
 	border-radius: 4px;
 }
-.login__form input:focus {
+.register__form input:focus {
 	outline: none;
 }
 
-.login__form-btn {
+.register__form-btn {
 	background-color: var(--dark-brown);
 	color: var(--cream);
 	margin-top: 10px;
@@ -52,16 +52,16 @@
 	transition: all 125ms;
 }
 
-.login__form-btn:hover {
+.register__form-btn:hover {
 	background-color: var(--brown);
 	border-color: var(--brown);
 }
 
-.login__form p {
+.register__form p {
 	width: 100%;
 }
 
-.login__form p a {
+.register__form p a {
 	font-weight: 700;
 	color: var(--brown);
 }
