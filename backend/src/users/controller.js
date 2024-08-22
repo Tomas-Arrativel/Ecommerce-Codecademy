@@ -71,23 +71,27 @@ const LogUser = (req, res) => {
 
 			// Comparing the plain password to the hashed one
 			let correctPass;
-			try {
-				const hash = results.rows[0].password;
-				correctPass = await bcrypt.compare(password, hash);
-			} catch (err) {
-				console.log(err);
-			}
+			if (results.rows[0] != null) {
+				try {
+					const hash = results.rows[0].password;
+					correctPass = await bcrypt.compare(password, hash);
+				} catch (err) {
+					console.log(err);
+				}
 
-			// Check if there is an error in the username or password
-			if (!results.rows.length || !correctPass) {
-				res.send("The username or password is not correct");
+				// Check if there is an error in the username or password
+				if (!correctPass) {
+					res.send("The username or password is not correct");
+				} else {
+					// Creating the user to the session
+					req.session.username = username;
+					req.session.userId = results.rows[0].id;
+					req.session.fullName = `${results.rows[0].first_name} ${results.rows[0].last_name}`;
+
+					res.send(req.session);
+				}
 			} else {
-				// Creating the user to the session
-				req.session.username = username;
-				req.session.userId = results.rows[0].id;
-				req.session.fullName = `${results.rows[0].first_name} ${results.rows[0].last_name}`;
-
-				res.send(req.session);
+				res.send("The username or password is not correct");
 			}
 		});
 	}
