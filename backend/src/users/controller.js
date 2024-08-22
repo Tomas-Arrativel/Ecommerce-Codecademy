@@ -31,7 +31,7 @@ const createUser = async (req, res) => {
 
 	pool.query(queries.checkUsername, [username], (error, results) => {
 		if (results.rows.length) {
-			res.send("Username already exists");
+			res.send({ message: "", error: true });
 		} else {
 			// Create user if it doesn't exists
 			pool.query(
@@ -39,7 +39,9 @@ const createUser = async (req, res) => {
 				[username, password, first_name, last_name],
 				(error, results) => {
 					if (error) throw error;
-					res.status(201).send("User created successfully");
+					res
+						.status(201)
+						.send({ message: "User created successfully", error: false });
 				}
 			);
 		}

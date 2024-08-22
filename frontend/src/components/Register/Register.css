@@ -65,3 +65,8 @@
 	font-weight: 700;
 	color: var(--brown);
 }
+
+.error__message {
+	color: #c40000;
+	font-size: 14px;
+}
