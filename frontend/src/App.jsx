@@ -1,8 +1,13 @@
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
-	return <></>;
+	return (
+		<div>
+			<Navbar />
+			<div className="home"></div>
+		</div>
+	);
 }
 
 export default App;

@@ -9,14 +9,31 @@ const getUsers = (req, res) => {
 	});
 };
 
-const getUserById = (req, res) => {
-	const id = parseInt(req.params.id);
+// const getUserById = (req, res) => {
+// 	// Parse and validate the ID parameter
+// 	const id = parseInt(req.params.id, 10);
 
-	pool.query(queries.getUserById, [id], (error, results) => {
-		if (error) throw error;
-		res.status(200).json(results.rows);
-	});
-};
+// 	// Check if id is valid
+// 	if (isNaN(id)) {
+// 		return res.status(400).json({ error: "Invalid ID format" });
+// 	}
+
+// 	// Perform the query
+// 	pool.query(queries.getUserById, [id], (error, results) => {
+// 		if (error) {
+// 			console.error("Database query error:", error);
+// 			return res.status(500).json({ error: "Database query error" });
+// 		}
+
+// 		// Check if user was found
+// 		if (results.rows.length === 0) {
+// 			return res.status(404).json({ error: "User not found" });
+// 		}
+
+// 		// Send the user data as response
+// 		res.status(200).json(results.rows[0]);
+// 	});
+// };
 
 const createUser = async (req, res) => {
 	let { username, password, first_name, last_name } = req.body;
@@ -64,7 +81,7 @@ const deleteUser = (req, res) => {
 	});
 };
 
-const LogUser = (req, res) => {
+const logUser = (req, res) => {
 	const { username, password } = req.body;
 
 	if (username != "" && password != "") {
@@ -99,10 +116,41 @@ const LogUser = (req, res) => {
 	}
 };
 
+const logoutUser = (req, res) => {
+	// Check if the session exists
+	if (req.session) {
+		// Destroy the session
+		req.session.destroy((err) => {
+			if (err) {
+				console.error("Error destroying session:", err);
+				return res
+					.status(500)
+					.send({ message: "Could not log out. Please try again." });
+			} else {
+				// Optionally, you can clear the cookie on the client side
+				res.clearCookie("connect.sid"); // 'connect.sid' is the default session cookie name
+				return res.status(200).send({ message: "Logged out successfully." });
+			}
+		});
+	} else {
+		res.status(400).send({ message: "No active session found." });
+	}
+};
+
+const checkAuth = (req, res) => {
+	if (req.session.userId) {
+		res.json({ isAuthenticated: true });
+	} else {
+		res.json({ isAuthenticated: false });
+	}
+};
+
 module.exports = {
 	getUsers,
-	getUserById,
+	// getUserById,
 	createUser,
 	deleteUser,
-	LogUser,
+	logUser,
+	logoutUser,
+	checkAuth,
 };

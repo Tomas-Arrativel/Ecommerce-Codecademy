@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
 import "./Login.css";
 
@@ -13,6 +14,7 @@ const Login = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState({ message: "" });
 	const navigate = useNavigate();
+	const { setIsAuthenticated, setSessionData } = useContext(AuthContext);
 
 	const onSubmit = async (data) => {
 		setLoading(true);
@@ -32,7 +34,8 @@ const Login = () => {
 			// If the user can't log in, throw new error
 			const responseData = res.data;
 			if (responseData.username && responseData.username.length > 0) {
-				console.log(responseData);
+				setIsAuthenticated(true);
+				setSessionData(responseData);
 				navigate("/");
 			} else {
 				setError({ message: "Something went wrong during the log in" });
