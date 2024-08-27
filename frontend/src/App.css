@@ -1,4 +1,45 @@
 .home {
 	background-color: var(--cream);
-	min-height: 80vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.home_background {
+	height: 450px;
+	width: 60%;
+	background: linear-gradient(
+			to bottom,
+			rgba(246, 244, 243, 0.5),
+			rgba(246, 244, 243, 1)
+		),
+		url(/img/beige-bg.jpg) center;
+	background-size: cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.home_background h2 {
+	font-size: 2.5rem;
+	color: var(--brown);
+	margin-top: 20px;
+	font-weight: 900;
+	margin-bottom: 2rem;
+}
+
+.home_products {
+	width: 60%;
+	padding: 1rem;
+	display: flex;
+	justify-content: center;
+}
+
+.home_products-container {
+	margin-top: -5rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	width: 100%;
+	gap: 1.5rem;
 }

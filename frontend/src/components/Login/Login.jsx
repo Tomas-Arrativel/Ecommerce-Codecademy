@@ -5,6 +5,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
 import "./Login.css";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = () => {
 	const {
 		register,
@@ -36,6 +39,16 @@ const Login = () => {
 			if (responseData.username && responseData.username.length > 0) {
 				setIsAuthenticated(true);
 				setSessionData(responseData);
+				toast.success("User logged in!", {
+					position: "top-center",
+					autoClose: 4000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true,
+					progress: undefined,
+					theme: "colored",
+				});
 				navigate("/");
 			} else {
 				setError({ message: "Something went wrong during the log in" });

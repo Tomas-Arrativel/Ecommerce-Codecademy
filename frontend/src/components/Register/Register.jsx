@@ -26,9 +26,7 @@ const Register = () => {
 			});
 
 			const responseData = res.data;
-			console.log(responseData);
 			if (!responseData.error) {
-				console.log(responseData);
 				navigate("/login");
 			} else {
 				setError({ message: "Something went wrong during the registration" });

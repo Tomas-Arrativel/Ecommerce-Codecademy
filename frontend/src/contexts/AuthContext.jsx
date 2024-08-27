@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -32,6 +35,16 @@ export const AuthProvider = ({ children }) => {
 			)
 			.then(() => {
 				setIsAuthenticated(false);
+				toast("Good byee!", {
+					position: "top-center",
+					autoClose: 2500,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true,
+					progress: undefined,
+					theme: "colored",
+				});
 			})
 			.catch((error) => {
 				console.error("Logout failed", error);
@@ -49,6 +62,18 @@ export const AuthProvider = ({ children }) => {
 			}}
 		>
 			{children}
+			<ToastContainer
+				position="top-center"
+				autoClose={4000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover={false}
+				theme="colored"
+			/>
 		</AuthContext.Provider>
 	);
 };

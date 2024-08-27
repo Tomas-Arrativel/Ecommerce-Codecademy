@@ -9,7 +9,7 @@ const Navbar = () => {
 	return (
 		<nav>
 			<Link to="/">
-				<h2>MyEcom</h2>
+				<h1>MyEcom</h1>
 			</Link>
 			<ul>
 				<li>
@@ -27,6 +27,11 @@ const Navbar = () => {
 						<li>
 							<Link className="link" to="/">
 								Orders
+							</Link>
+						</li>
+						<li>
+							<Link className="link" to="/">
+								Favorites
 							</Link>
 						</li>
 						<li>
