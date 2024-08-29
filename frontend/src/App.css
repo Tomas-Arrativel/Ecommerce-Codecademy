@@ -6,8 +6,8 @@
 }
 
 .home_background {
-	height: 450px;
-	width: 60%;
+	height: 550px;
+	width: 70%;
 	background: linear-gradient(
 			to bottom,
 			rgba(246, 244, 243, 0.5),
@@ -29,17 +29,17 @@
 }
 
 .home_products {
-	width: 60%;
+	width: 70%;
 	padding: 1rem;
 	display: flex;
 	justify-content: center;
 }
 
 .home_products-container {
-	margin-top: -5rem;
+	margin-top: -8rem;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	width: 100%;
-	gap: 1.5rem;
+	gap: 2.2rem;
 }

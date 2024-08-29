@@ -7,20 +7,32 @@ import NotFound from "./components/NotFound/NotFound.jsx";
 import "./index.css";
 import Register from "./components/Register/Register.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
+import ProductPage from "./components/ProductPage/ProductPage.jsx";
+import Navbar from "./components/Navbar/Navbar.jsx";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <App />,
+		element: <Navbar />,
 		errorElement: <NotFound />,
-	},
-	{
-		path: "/login",
-		element: <Login />,
-	},
-	{
-		path: "/register",
-		element: <Register />,
+		children: [
+			{
+				path: "/",
+				element: <App />,
+			},
+			{
+				path: "/login",
+				element: <Login />,
+			},
+			{
+				path: "/register",
+				element: <Register />,
+			},
+			{
+				path: "/products/:productId",
+				element: <ProductPage />,
+			},
+		],
 	},
 ]);
 
