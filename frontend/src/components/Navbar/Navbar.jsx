@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import "./Navbar.css";
+import axios from "axios";
+import { AuthContext } from "../../contexts/AuthContext";
+import { CartContext } from "../../contexts/CartContext";
 
 const Navbar = () => {
 	const { isAuthenticated, logout, sessionData } = useContext(AuthContext);
+	const { cartProducts } = useContext(CartContext);
+	console.log(cartProducts);
+	const numOfProducts = cartProducts.length || 0;
 
 	return (
 		<div>
@@ -22,17 +27,17 @@ const Navbar = () => {
 						<>
 							<li>
 								<Link className="link" to="/">
-									Cart
-								</Link>
-							</li>
-							<li>
-								<Link className="link" to="/">
 									Orders
 								</Link>
 							</li>
 							<li>
 								<Link className="link" to="/">
 									Favorites
+								</Link>
+							</li>
+							<li>
+								<Link className="link cart" to="/">
+									Cart {numOfProducts}
 								</Link>
 							</li>
 							<li>

@@ -2,7 +2,7 @@ const pool = require("../../db");
 const queries = require("./queries");
 
 const getProductsStored = (req, res) => {
-	const userId = req.session.userId;
+	const userId = req.body.userId;
 
 	if (userId) {
 		pool.query(queries.getProductsStored, [userId], (error, results) => {
@@ -14,9 +14,25 @@ const getProductsStored = (req, res) => {
 	}
 };
 
+const getProductStoredWithId = (req, res) => {
+	const { userId, productId } = req.body;
+
+	if (userId) {
+		pool.query(
+			queries.getProductAddedToCart,
+			[userId, productId],
+			(error, results) => {
+				if (error) throw error;
+				res.status(200).send(results.rows);
+			}
+		);
+	} else {
+		res.status(403).send("You have to log in to access your cart");
+	}
+};
+
 const addToCart = (req, res) => {
-	const userId = req.session.userId;
-	const { productId, quantity } = req.body;
+	const { productId, quantity, userId } = req.body;
 
 	if (userId) {
 		pool.query(
@@ -98,6 +114,7 @@ const buyItemsInCart = (req, res) => {
 
 module.exports = {
 	getProductsStored,
+	getProductStoredWithId,
 	addToCart,
 	deleteFromCart,
 	buyItemsInCart,

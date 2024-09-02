@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Quantity from "../Quantity/Quantity";
 import { useForm } from "react-hook-form";
@@ -6,11 +6,18 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 import "./ProductPage.css";
+import { AuthContext } from "../../contexts/AuthContext";
+import { CartContext } from "../../contexts/CartContext";
 
 const ProductPage = () => {
 	const [product, setProduct] = useState({});
 	const [loading, setLoading] = useState(false);
+	const [errorMsg, setErrorMsg] = useState("");
 	const [quantity, setQuantity] = useState(1);
+	const [productInCart, setProductInCart] = useState();
+
+	const { sessionData } = useContext(AuthContext);
+	const { updateCart, cartProducts } = useContext(CartContext);
 
 	const { handleSubmit } = useForm();
 	const { productId } = useParams();
@@ -29,13 +36,54 @@ const ProductPage = () => {
 			}
 		};
 
-		getProductById();
+		const getCartById = async () => {
+			try {
+				const response = await axios.post(
+					"http://localhost:8000/api/cart/get-product-with-id",
+					{
+						userId: sessionData.userId,
+						productId,
+					}
+				);
+				setProductInCart(response.data[0]);
+			} catch (error) {
+				console.error("You need to log in to get your cart items", error);
+			}
+		};
+		sessionData?.userId ? getProductById() : null;
+		getCartById();
 	}, []);
 
 	const onSubmit = async (data) => {
-		console.log(
-			`${quantity} product with id ${productId} added successfully to the cart!`
-		);
+		setLoading(true);
+		setErrorMsg("");
+
+		try {
+			if (sessionData?.userId) {
+				const res = await axios.post(
+					"http://localhost:8000/api/cart/",
+					{ productId, quantity, userId: sessionData.userId },
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+
+				const responseData = res.data;
+				if (res.status === 200) {
+					// Call context function to refresh cart data
+					updateCart();
+				}
+				// If the user can't add to cart, throw new error
+			} else {
+				throw new Error("Error while adding product to the cart");
+			}
+		} catch (error) {
+			setErrorMsg("You need to log in to add product to the cart");
+			console.error(errorMsg);
+		}
+		setLoading(false);
 	};
 
 	return (
@@ -61,9 +109,19 @@ const ProductPage = () => {
 								className="product_page-addto"
 								onSubmit={handleSubmit(onSubmit)}
 							>
-								<button type="submit" className="product_page-btn">
-									Add to cart
-								</button>
+								{productInCart?.quantity ? (
+									<button
+										type="submit"
+										className="product_page-btn"
+										disabled={true}
+									>
+										Product in the cart
+									</button>
+								) : (
+									<button type="submit" className="product_page-btn">
+										Add to cart
+									</button>
+								)}
 								<Quantity quantity={quantity} setQuantity={setQuantity} />
 							</form>
 						</div>

@@ -3,8 +3,10 @@ const controller = require("./controller");
 
 const router = Router();
 
-router.get("/", controller.getProductsStored);
 router.post("/", controller.addToCart);
+
+router.post("/getproducts", controller.getProductsStored);
+router.post("/get-product-with-id", controller.getProductStoredWithId);
 
 router.get("/checkout", controller.buyItemsInCart);
 

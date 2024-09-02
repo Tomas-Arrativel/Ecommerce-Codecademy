@@ -9,6 +9,7 @@ import Register from "./components/Register/Register.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import ProductPage from "./components/ProductPage/ProductPage.jsx";
 import Navbar from "./components/Navbar/Navbar.jsx";
+import { CartProvider } from "./contexts/CartContext.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -39,7 +40,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<AuthProvider>
-			<RouterProvider router={router} />
+			<CartProvider>
+				<RouterProvider router={router} />
+			</CartProvider>
 		</AuthProvider>
 	</StrictMode>
 );

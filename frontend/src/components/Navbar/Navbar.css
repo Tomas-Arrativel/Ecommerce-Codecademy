@@ -55,3 +55,14 @@ ul li .link.loginbtn {
 ul li .link.loginbtn:hover {
 	background-color: #174d10;
 }
+
+ul li .link.cart {
+	background-color: var(--grayish-beige);
+	color: var(--dark-brown);
+	font-weight: 700;
+	padding: 0.2rem 0.8rem;
+	transition: background-color 0.2s;
+}
+ul li .link.cart:hover {
+	background-color: var(--cream);
+}
