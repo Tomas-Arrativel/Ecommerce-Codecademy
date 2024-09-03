@@ -49,8 +49,7 @@ const addToCart = (req, res) => {
 };
 
 const deleteFromCart = (req, res) => {
-	const userId = req.session.userId;
-	const productId = req.params.productId;
+	const { productId, userId } = req.body;
 
 	if (userId) {
 		pool.query(

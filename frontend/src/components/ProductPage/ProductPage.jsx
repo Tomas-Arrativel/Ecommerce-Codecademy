@@ -14,7 +14,7 @@ const ProductPage = () => {
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState("");
 	const [quantity, setQuantity] = useState(1);
-	const [productInCart, setProductInCart] = useState();
+	const [productQuantityCart, setProductQuantityCart] = useState(0);
 
 	const { sessionData } = useContext(AuthContext);
 	const { updateCart, cartProducts } = useContext(CartContext);
@@ -35,24 +35,14 @@ const ProductPage = () => {
 				console.error("Error geting the product: ", error);
 			}
 		};
+		getProductById();
 
-		const getCartById = async () => {
-			try {
-				const response = await axios.post(
-					"http://localhost:8000/api/cart/get-product-with-id",
-					{
-						userId: sessionData.userId,
-						productId,
-					}
-				);
-				setProductInCart(response.data[0]);
-			} catch (error) {
-				console.error("You need to log in to get your cart items", error);
-			}
-		};
-		sessionData?.userId ? getProductById() : null;
-		getCartById();
-	}, []);
+		// Update productQuantityCart based on the cartProducts whenever it changes
+		const productInCart = cartProducts.find(
+			(prod) => prod.product_id == productId
+		);
+		setProductQuantityCart(productInCart ? productInCart.quantity : 0);
+	}, [cartProducts]);
 
 	const onSubmit = async (data) => {
 		setLoading(true);
@@ -70,13 +60,12 @@ const ProductPage = () => {
 					}
 				);
 
-				const responseData = res.data;
 				if (res.status === 200) {
 					// Call context function to refresh cart data
 					updateCart();
 				}
-				// If the user can't add to cart, throw new error
 			} else {
+				// If the user can't add to cart, throw new error
 				throw new Error("Error while adding product to the cart");
 			}
 		} catch (error) {
@@ -84,6 +73,29 @@ const ProductPage = () => {
 			console.error(errorMsg);
 		}
 		setLoading(false);
+	};
+
+	const onSubmitDelete = async (data) => {
+		try {
+			setLoading(true);
+			const res = axios.post(
+				"http://localhost:8000/api/cart/delete",
+				{
+					userId: sessionData.userId,
+					productId,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+			// Call context function to refresh cart data
+			updateCart();
+			setLoading(false);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -105,25 +117,30 @@ const ProductPage = () => {
 								<span className="detail_price">{product.price}</span>
 							</div>
 
-							<form
-								className="product_page-addto"
-								onSubmit={handleSubmit(onSubmit)}
-							>
-								{productInCart?.quantity ? (
+							{productQuantityCart > 0 ? (
+								<form
+									className="product_page-addto"
+									onSubmit={handleSubmit(onSubmitDelete)}
+								>
 									<button
 										type="submit"
-										className="product_page-btn"
-										disabled={true}
+										className="product_page-btn delete_cart-product"
 									>
-										Product in the cart
+										Delete {productQuantityCart} from cart
 									</button>
-								) : (
+								</form>
+							) : (
+								<form
+									className="product_page-addto"
+									onSubmit={handleSubmit(onSubmit)}
+								>
 									<button type="submit" className="product_page-btn">
 										Add to cart
 									</button>
-								)}
-								<Quantity quantity={quantity} setQuantity={setQuantity} />
-							</form>
+									<Quantity quantity={quantity} setQuantity={setQuantity} />
+								</form>
+							)}
+							<p className="error__message">{errorMsg}</p>
 						</div>
 					</div>
 				</div>

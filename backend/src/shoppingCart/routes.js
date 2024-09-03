@@ -10,6 +10,6 @@ router.post("/get-product-with-id", controller.getProductStoredWithId);
 
 router.get("/checkout", controller.buyItemsInCart);
 
-router.delete("/:productId", controller.deleteFromCart);
+router.post("/delete", controller.deleteFromCart);
 
 module.exports = router;
