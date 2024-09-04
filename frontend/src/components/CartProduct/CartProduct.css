@@ -1,0 +1,33 @@
+.product__cart {
+	display: flex;
+	gap: 1rem;
+}
+
+.product__cart img {
+	width: 200px;
+}
+
+.product__cart .product__cart-detail {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.product__cart-final {
+	display: flex;
+	flex-direction: column;
+}
+
+.remove__btn-cart {
+	background-color: #9b1111;
+	color: var(--white);
+	padding: 0.4rem;
+	font-weight: 600;
+	cursor: pointer;
+	border: none;
+	transition: background-color 0.3s;
+}
+.remove__btn-cart:hover {
+	background-color: #5c0f0f;
+}

@@ -17,7 +17,8 @@ const ProductPage = () => {
 	const [productQuantityCart, setProductQuantityCart] = useState(0);
 
 	const { sessionData } = useContext(AuthContext);
-	const { updateCart, cartProducts } = useContext(CartContext);
+	const { updateCart, cartProducts, deleteProductFromCart, addProductToCart } =
+		useContext(CartContext);
 
 	const { handleSubmit } = useForm();
 	const { productId } = useParams();
@@ -49,53 +50,19 @@ const ProductPage = () => {
 		setErrorMsg("");
 
 		try {
-			if (sessionData?.userId) {
-				const res = await axios.post(
-					"http://localhost:8000/api/cart/",
-					{ productId, quantity, userId: sessionData.userId },
-					{
-						headers: {
-							"Content-Type": "application/json",
-						},
-					}
-				);
-
-				if (res.status === 200) {
-					// Call context function to refresh cart data
-					updateCart();
-				}
-			} else {
-				// If the user can't add to cart, throw new error
-				throw new Error("Error while adding product to the cart");
-			}
+			await addProductToCart(productId, quantity);
 		} catch (error) {
 			setErrorMsg("You need to log in to add product to the cart");
 			console.error(errorMsg);
 		}
+
 		setLoading(false);
 	};
 
 	const onSubmitDelete = async (data) => {
-		try {
-			setLoading(true);
-			const res = axios.post(
-				"http://localhost:8000/api/cart/delete",
-				{
-					userId: sessionData.userId,
-					productId,
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-			// Call context function to refresh cart data
-			updateCart();
-			setLoading(false);
-		} catch (error) {
-			console.error(error);
-		}
+		setLoading(true);
+		await deleteProductFromCart(productId);
+		setLoading(false);
 	};
 
 	return (

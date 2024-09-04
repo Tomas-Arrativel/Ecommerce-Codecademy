@@ -3,7 +3,9 @@ const getProductsStored = `SELECT u.username AS user,
                            p.product AS product, 
                            p.price AS price, 
                            s.quantity AS quantity,
-                           p.id AS product_id 
+                           p.id AS product_id,
+                           p.img AS img,
+                           s.id as cart_id
                            FROM shopping_cart s 
                            JOIN users u 
                               ON u.id = s.user_id
