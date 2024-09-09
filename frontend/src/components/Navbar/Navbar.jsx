@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./Navbar.css";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -7,7 +7,8 @@ import CartProduct from "../CartProduct/CartProduct";
 
 const Navbar = () => {
 	const { isAuthenticated, logout, sessionData } = useContext(AuthContext);
-	const { cartProducts } = useContext(CartContext);
+	const { cartProducts, deleteProductFromCart, updateCart, totalPrice } =
+		useContext(CartContext);
 	const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false);
 
 	const numOfProducts = cartProducts.length || 0;
@@ -18,6 +19,12 @@ const Navbar = () => {
 
 	const closeOffCanvas = () => {
 		setIsOffCanvasOpen(false);
+	};
+
+	// Handle delete product from cart
+	const handleDelete = async (productId) => {
+		await deleteProductFromCart(productId);
+		updateCart(); // Fetch the updated cart
 	};
 
 	return (
@@ -73,19 +80,39 @@ const Navbar = () => {
 						&times;
 					</button>
 					<h2>Your Cart {sessionData.username}</h2>
-					<div className="cart__products-container">
-						{cartProducts.map((product) => (
-							<CartProduct
-								name={product.product}
-								img={product.img}
-								price={product.price}
-								quantity={product.quantity}
-								id={product.id}
-								cartId={product.cart_id}
-								key={product.product_id}
-							/>
-						))}
-					</div>
+					{totalPrice != 0 ? (
+						<>
+							<div className="cart__products-container">
+								{cartProducts.map((product) => (
+									<div key={product.product_id} className="cart__product-item">
+										<CartProduct
+											name={product.product}
+											img={product.img}
+											price={product.price}
+											quantity={product.quantity}
+											id={product.id}
+											cartId={product.cart_id}
+											deleteButton={
+												<button
+													className="remove__btn-cart"
+													onClick={() => handleDelete(product.product_id)}
+												>
+													Delete
+												</button>
+											}
+										/>
+									</div>
+								))}
+							</div>
+							<button className="buy__btn-cart">
+								Buy products <span>{totalPrice}</span>
+							</button>
+						</>
+					) : (
+						<p className="emptycart__message">
+							You don't have nothing in your cart, add items to buy!
+						</p>
+					)}
 				</div>
 			</div>
 

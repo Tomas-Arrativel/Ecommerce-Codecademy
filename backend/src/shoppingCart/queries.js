@@ -26,7 +26,12 @@ const getProductAddedToCart = `SELECT u.username AS user,
                               WHERE s.user_id = $1
                               AND p.id = $2
                               ORDER BY s.id desc
-                              LIMIT 1;`;
+                              LIMIT 1`;
+
+const getTotalInCart = `SELECT SUM(p.price * s.quantity) AS total_price
+                        FROM shopping_cart s
+                        JOIN products p ON s.product_id = p.id
+                        WHERE s.user_id = $1`;
 
 // INSERTS
 const addToCart =
@@ -42,6 +47,7 @@ const deleteCartWhenBuying = "DELETE FROM shopping_cart WHERE user_id = $1";
 module.exports = {
 	getProductsStored,
 	getProductAddedToCart,
+	getTotalInCart,
 	addToCart,
 	newOrder,
 	deleteFromCart,

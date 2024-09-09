@@ -7,15 +7,18 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
 	const { sessionData } = useContext(AuthContext); // Get sessionData from AuthContext
 	const [cartProducts, setCartProducts] = useState([]);
+	const [totalPrice, setTotalPrice] = useState(0);
 
 	useEffect(() => {
 		if (sessionData?.userId) {
 			fetchCartProducts(); // Initial fetch
+			getTotalInCart();
 		}
 	}, [sessionData?.userId]); // Re-fetch when userId changes
 
 	const updateCart = async () => {
 		await fetchCartProducts(); // Re-fetch cart data
+		await getTotalInCart();
 	};
 
 	const fetchCartProducts = async () => {
@@ -27,6 +30,25 @@ export const CartProvider = ({ children }) => {
 			setCartProducts(response.data);
 		} catch (error) {
 			console.error("Error fetching cart products: ", error);
+		}
+	};
+
+	const getTotalInCart = async () => {
+		try {
+			const response = await axios.post(
+				"http://localhost:8000/api/cart/gettotal",
+				{ userId: sessionData.userId },
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+			if (response.data.total_price != null)
+				setTotalPrice(response.data.total_price);
+			else setTotalPrice(0);
+		} catch (error) {
+			console.error("Error getting total price in cart: ", error);
 		}
 	};
 
@@ -55,18 +77,15 @@ export const CartProvider = ({ children }) => {
 	const deleteProductFromCart = async (productId) => {
 		if (window.confirm("Do you want to delete this product from the cart?")) {
 			try {
-				await axios.post(
-					"http://localhost:8000/api/cart/delete",
-					{
+				await axios.delete("http://localhost:8000/api/cart/delete", {
+					data: {
 						userId: sessionData.userId,
 						productId,
 					},
-					{
-						headers: {
-							"Content-Type": "application/json",
-						},
-					}
-				);
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
 				// Call context function to refresh cart data
 				updateCart();
 			} catch (error) {
@@ -82,6 +101,7 @@ export const CartProvider = ({ children }) => {
 				updateCart,
 				deleteProductFromCart,
 				addProductToCart,
+				totalPrice,
 			}}
 		>
 			{children}

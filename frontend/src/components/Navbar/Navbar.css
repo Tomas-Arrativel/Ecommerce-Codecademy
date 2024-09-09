@@ -86,6 +86,12 @@ ul li .link.cart-button:hover {
 
 .offcanvas-content {
 	padding: 20px;
+	min-height: 100vh; /* Takes at least the full height of the window */
+	max-height: 100vh; /* Prevents the content from overflowing beyond the window height */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between; /* Adjust to have content and buttons separated */
+	overflow-y: auto; /* Enables scrolling if content overflows */
 }
 
 .offcanvas-content h2 {
@@ -142,4 +148,28 @@ ul li .link.cart-button:hover {
 		width: 100%; /* Full width on smaller screens */
 		right: -768px;
 	}
+}
+
+.buy__btn-cart {
+	background-color: #156d0a;
+	color: var(--white);
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+	padding: 0.5rem 1.2rem;
+	width: 100%;
+	border: none;
+	margin-top: 1rem;
+	transition: background-color 0.2s;
+}
+.buy__btn-cart:hover {
+	background-color: #174d10;
+}
+
+.buy__btn-cart span {
+	margin-left: 0.2rem;
+}
+
+.emptycart__message {
+	margin-bottom: 2rem;
 }

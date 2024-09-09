@@ -1,22 +1,21 @@
-import React, { useContext, useEffect } from "react";
-import { CartContext } from "../../contexts/CartContext";
+import React from "react";
 
 import "./CartProduct.css";
 
-const CartProduct = ({ name, img, price, quantity, id, cartId }) => {
-	const { deleteProductFromCart, cartProducts, updateCart } =
-		useContext(CartContext);
-
+const CartProduct = ({
+	name,
+	img,
+	price,
+	quantity,
+	id,
+	cartId,
+	deleteButton,
+}) => {
 	const priceString = price; // Example price string
 	const priceNumeric = parseFloat(
 		priceString.replace(/[^0-9,-]+/g, "").replace(",", ".")
 	);
 	const totalPrice = priceNumeric * quantity;
-
-	const onClick = async () => {
-		await deleteProductFromCart(id);
-		await updateCart();
-	};
 
 	return (
 		<div className="product__cart">
@@ -30,9 +29,7 @@ const CartProduct = ({ name, img, price, quantity, id, cartId }) => {
 				</div>
 				<div className="product__cart-final">
 					<h4>$ {totalPrice}</h4>
-					<button onClick={onClick} className="remove__btn-cart" type="button">
-						Remove from cart
-					</button>
+					{deleteButton}
 				</div>
 			</div>
 		</div>

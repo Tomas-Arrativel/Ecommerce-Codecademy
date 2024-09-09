@@ -67,8 +67,19 @@ const deleteFromCart = (req, res) => {
 	}
 };
 
+const getTotalInCart = (req, res) => {
+	const { userId } = req.body;
+
+	if (userId) {
+		pool.query(queries.getTotalInCart, [userId], (error, results) => {
+			if (error) throw error;
+			res.send(results.rows[0]);
+		});
+	}
+};
+
 const buyItemsInCart = (req, res) => {
-	const userId = req.session.userId;
+	const { userId } = req.body;
 
 	if (userId) {
 		// If the user is logged in, get the products in cart
@@ -114,6 +125,7 @@ const buyItemsInCart = (req, res) => {
 module.exports = {
 	getProductsStored,
 	getProductStoredWithId,
+	getTotalInCart,
 	addToCart,
 	deleteFromCart,
 	buyItemsInCart,
