@@ -94,14 +94,37 @@ export const CartProvider = ({ children }) => {
 		}
 	};
 
+	const buyFromCart = async () => {
+		if (window.confirm("Do you want to buy this product/s from the cart?")) {
+			try {
+				await axios.post(
+					"http://localhost:8000/api/cart/checkout",
+					{
+						userId: sessionData.userId,
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+				// Call context function to refresh cart data
+				updateCart();
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+
 	return (
 		<CartContext.Provider
 			value={{
 				cartProducts,
+				totalPrice,
 				updateCart,
 				deleteProductFromCart,
 				addProductToCart,
-				totalPrice,
+				buyFromCart,
 			}}
 		>
 			{children}

@@ -7,9 +7,16 @@ import CartProduct from "../CartProduct/CartProduct";
 
 const Navbar = () => {
 	const { isAuthenticated, logout, sessionData } = useContext(AuthContext);
-	const { cartProducts, deleteProductFromCart, updateCart, totalPrice } =
-		useContext(CartContext);
+	const {
+		cartProducts,
+		deleteProductFromCart,
+		updateCart,
+		totalPrice,
+		buyFromCart,
+	} = useContext(CartContext);
+
 	const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const numOfProducts = cartProducts.length || 0;
 
@@ -25,6 +32,12 @@ const Navbar = () => {
 	const handleDelete = async (productId) => {
 		await deleteProductFromCart(productId);
 		updateCart(); // Fetch the updated cart
+	};
+
+	const handleBuyOnClick = async () => {
+		setLoading(true);
+		await buyFromCart();
+		setLoading(false);
 	};
 
 	return (
@@ -104,7 +117,11 @@ const Navbar = () => {
 									</div>
 								))}
 							</div>
-							<button className="buy__btn-cart">
+							<button
+								onClick={handleBuyOnClick}
+								className="buy__btn-cart"
+								disabled={loading}
+							>
 								Buy products <span>{totalPrice}</span>
 							</button>
 						</>
