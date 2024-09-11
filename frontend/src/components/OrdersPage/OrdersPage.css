@@ -1,0 +1,43 @@
+.orders {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	max-height: 100vh;
+	padding: 2rem;
+	background-color: var(--cream);
+}
+
+.orders__container {
+	padding: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background-color: var(--white);
+	min-width: 600px;
+}
+
+.orders__container thead,
+.orders__container thead tr {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.orders__container tbody {
+	width: 100%;
+}
+
+.orders__container-order {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 0.3rem 1rem;
+}
+.orders__container-order:nth-child(odd) {
+	background-color: #f0f0f0;
+}

@@ -5,6 +5,7 @@ const cors = require("cors");
 const usersRoutes = require("./src/users/routes");
 const productsRoutes = require("./src/products/routes");
 const shoppingCartRoutes = require("./src/shoppingCart/routes");
+const ordersRoutes = require("./src/orders/routes");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.get("/", (req, res, next) => {
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/cart", shoppingCartRoutes);
+app.use("/api/orders", ordersRoutes);
 
 const PORT = 8000;
 app.listen(PORT, () => {

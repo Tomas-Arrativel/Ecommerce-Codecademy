@@ -55,13 +55,8 @@ const Navbar = () => {
 					{isAuthenticated ? (
 						<>
 							<li>
-								<Link className="link" to="/">
+								<Link className="link" to="/orders">
 									Orders
-								</Link>
-							</li>
-							<li>
-								<Link className="link" to="/">
-									Favorites
 								</Link>
 							</li>
 							<li>
