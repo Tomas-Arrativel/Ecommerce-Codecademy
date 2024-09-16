@@ -48,8 +48,8 @@ const Navbar = () => {
 				</Link>
 				<ul>
 					<li>
-						<Link className="link" to="/catalogs">
-							Catalogs
+						<Link className="link" to="/catalog">
+							Catalog
 						</Link>
 					</li>
 					{isAuthenticated ? (

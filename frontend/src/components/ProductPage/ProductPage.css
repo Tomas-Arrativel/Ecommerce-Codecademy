@@ -5,6 +5,8 @@
 	justify-content: center;
 	min-height: 100vh;
 	background-color: var(--cream);
+	padding-top: 5rem;
+	padding-bottom: 2rem;
 }
 
 .product_page-container {
@@ -124,4 +126,58 @@
 }
 .product_page-btn.delete_cart-product:hover {
 	background-color: #5c0f0f;
+}
+
+@media (max-width: 1200px) {
+	.product_page-container {
+		flex-direction: column; /* Stack image and details vertically on small screens */
+		padding: 1rem;
+	}
+
+	.product_page-detail {
+		width: 100%;
+	}
+
+	.product_page-addto {
+		flex-direction: column-reverse; /* Stack buttons and quantity selector vertically */
+	}
+	.product_page-addto * {
+		width: 100%;
+	}
+}
+
+@media (max-width: 760px) {
+	.product_page-container {
+		width: 90%;
+	}
+
+	.product_page-container img {
+		min-width: 100%;
+	}
+}
+
+@media (max-width: 500px) {
+	.product_page-container {
+		width: 95%;
+	}
+
+	.detail_name {
+		font-size: 1.5rem;
+	}
+
+	.detail_description {
+		font-size: 0.9rem;
+	}
+
+	.detail_price {
+		font-size: 1.5rem;
+	}
+
+	.product_page-btn {
+		font-size: 1.2rem;
+		padding: 0.4rem;
+	}
+	.quantity_button {
+		padding: 0.4rem;
+	}
 }

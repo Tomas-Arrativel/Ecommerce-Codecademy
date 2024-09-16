@@ -14,6 +14,7 @@ import "./index.css";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { CartProvider } from "./contexts/CartContext.jsx";
 import { OrdersProvider } from "./contexts/OrdersContext.jsx";
+import Catalog from "./components/Catalog/Catalog.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
 						<OrdersPage />
 					</OrdersProvider>
 				),
+			},
+			{
+				path: "/catalog",
+				element: <Catalog />,
 			},
 			{
 				path: "/products/:productId",

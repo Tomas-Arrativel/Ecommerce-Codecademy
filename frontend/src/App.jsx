@@ -3,13 +3,29 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Product from "./components/Product/Product";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function App() {
 	const [products, setProducts] = useState([]);
+
+	const location = useLocation(); // Get the location object
+
+	// Helper function to get the 'cat' query parameter from the URL
+	const getCategoryFromUrl = () => {
+		const params = new URLSearchParams(location.search);
+		return params.get("cat");
+	};
+
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
-				const response = await axios.get("http://localhost:8000/api/products/");
+				// Construct the URL with or without the `cat` query parameter
+				const category = getCategoryFromUrl();
+				const url = category
+					? `http://localhost:8000/api/products?cat=${category}`
+					: "http://localhost:8000/api/products";
+
+				const response = await axios.get(url);
 				setProducts(response.data);
 			} catch (error) {
 				console.error("Error fetching products:", error);

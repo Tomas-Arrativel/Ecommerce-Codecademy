@@ -26,6 +26,8 @@
 	margin-top: 20px;
 	font-weight: 900;
 	margin-bottom: 2rem;
+	text-align: center;
+	padding: 0.5rem;
 }
 
 .home_products {
@@ -42,4 +44,55 @@
 	justify-content: center;
 	width: 100%;
 	gap: 2.2rem;
+}
+
+@media (max-width: 1200px) {
+	.home_background {
+		width: 85%;
+		height: 450px;
+	}
+
+	.home_background h2 {
+		font-size: 2rem;
+	}
+
+	.home_products {
+		width: 85%;
+	}
+}
+
+@media (max-width: 768px) {
+	.home_background {
+		width: 90%;
+		height: 400px;
+	}
+
+	.home_background h2 {
+		font-size: 1.8rem;
+	}
+
+	.home_products-container {
+		margin-top: -6rem;
+		gap: 1.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.home_background {
+		width: 95%;
+		height: 300px;
+	}
+
+	.home_background h2 {
+		font-size: 1.5rem;
+	}
+
+	.home_products-container {
+		margin-top: -4rem;
+		gap: 1rem;
+	}
+
+	.home_products {
+		width: 95%;
+	}
 }
