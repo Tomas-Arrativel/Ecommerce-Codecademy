@@ -16,6 +16,7 @@ const Navbar = () => {
 	} = useContext(CartContext);
 
 	const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false); // For mobile menu
 	const [loading, setLoading] = useState(false);
 
 	const numOfProducts = cartProducts.length || 0;
@@ -26,6 +27,10 @@ const Navbar = () => {
 
 	const closeOffCanvas = () => {
 		setIsOffCanvasOpen(false);
+	};
+
+	const toggleMenu = () => {
+		setIsMenuOpen(!isMenuOpen); // Toggle menu for mobile
 	};
 
 	// Handle delete product from cart
@@ -46,7 +51,13 @@ const Navbar = () => {
 				<Link to="/">
 					<h1>MyEcom</h1>
 				</Link>
-				<ul>
+
+				{/* Hamburger menu for mobile */}
+				<div className="hamburger" onClick={toggleMenu}>
+					☰
+				</div>
+
+				<ul className={isMenuOpen ? "open" : ""}>
 					<li>
 						<Link className="link" to="/catalog">
 							Catalog
@@ -122,7 +133,7 @@ const Navbar = () => {
 						</>
 					) : (
 						<p className="emptycart__message">
-							You don't have nothing in your cart, add items to buy!
+							You don't have anything in your cart, add items to buy!
 						</p>
 					)}
 				</div>

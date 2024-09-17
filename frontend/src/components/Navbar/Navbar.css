@@ -135,6 +135,12 @@ ul li .link.cart-button:hover {
 	margin-top: 1rem;
 }
 
+.hamburger {
+	display: none; /* Hidden on larger screens */
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
 /* Responsive styles */
 @media (max-width: 1000px) {
 	.offcanvas {
@@ -144,6 +150,35 @@ ul li .link.cart-button:hover {
 }
 
 @media (max-width: 768px) {
+	@media (max-width: 768px) {
+		ul {
+			display: none;
+			flex-direction: column;
+			position: absolute;
+			top: 60px;
+			right: 0;
+			background-color: var(--dark-brown);
+			width: 100%;
+			text-align: center;
+			padding: 10px;
+			gap: 1rem;
+		}
+
+		nav ul.open {
+			display: flex; /* Show menu when hamburger is clicked */
+		}
+
+		.hamburger {
+			display: block; /* Show hamburger on mobile screens */
+			color: var(--cream);
+		}
+
+		.offcanvas {
+			width: 100%;
+			right: -768px;
+		}
+	}
+
 	.offcanvas {
 		width: 100%; /* Full width on smaller screens */
 		right: -768px;

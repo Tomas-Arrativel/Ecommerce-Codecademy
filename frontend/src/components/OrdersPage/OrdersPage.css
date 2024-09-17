@@ -1,43 +1,68 @@
-.orders {
+.orders__table-container {
+	width: 100%;
+	overflow-x: auto;
+	margin-top: 1rem;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	min-height: 100vh;
-	max-height: 100vh;
-	padding: 2rem;
-	background-color: var(--cream);
-}
-
-.orders__container {
-	padding: 1rem;
-	display: flex;
 	justify-content: center;
 	align-items: center;
-	flex-direction: column;
-	background-color: var(--white);
-	min-width: 600px;
+	min-height: 90vh;
 }
 
-.orders__container thead,
-.orders__container thead tr {
+.orders__table {
 	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	border-collapse: collapse;
 }
 
-.orders__container tbody {
-	width: 100%;
+.orders__table th,
+.orders__table td {
+	text-align: left;
+	padding: 12px 15px;
+	border: 1px solid #dddddd;
 }
 
-.orders__container-order {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	padding: 0.3rem 1rem;
+.orders__table th {
+	background-color: #333;
+	color: white;
 }
-.orders__container-order:nth-child(odd) {
-	background-color: #f0f0f0;
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+	.orders__table,
+	.orders__table thead,
+	.orders__table tbody,
+	.orders__table th,
+	.orders__table td,
+	.orders__table tr {
+		display: block;
+	}
+
+	.orders__table thead {
+		display: none;
+	}
+
+	.orders__table-row {
+		margin-bottom: 1rem;
+		border-bottom: 2px solid #dddddd;
+		padding-bottom: 1rem;
+	}
+
+	.orders__table td {
+		display: block;
+		text-align: right;
+		padding-left: 50%;
+		position: relative;
+	}
+
+	.orders__table td::before {
+		content: attr(data-label);
+		position: absolute;
+		left: 0;
+		width: 50%;
+		padding-left: 15px;
+		font-weight: bold;
+		text-align: left;
+		background-color: #f0f0f0;
+		border-right: 1px solid #ddd;
+	}
 }

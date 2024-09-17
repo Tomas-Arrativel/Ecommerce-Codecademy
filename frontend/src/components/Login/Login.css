@@ -17,11 +17,13 @@
 	background-color: var(--white);
 	padding: 2rem 2.5rem;
 	border-radius: 5px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login__form h2 {
 	color: var(--dark-brown);
 	width: 100%;
+	font-size: 1.5rem;
 	margin-bottom: 10px;
 }
 
@@ -69,4 +71,45 @@
 .error__message {
 	color: #c40000;
 	font-size: 14px;
+}
+
+@media (max-width: 768px) {
+	.login__form {
+		width: 100%;
+		max-width: 400px; /* Reduce form width for smaller screens */
+		padding: 1.5rem 1rem; /* Adjust padding */
+	}
+
+	.login__form h2 {
+		font-size: 1.3rem; /* Smaller font size for smaller screens */
+	}
+
+	.login__form input {
+		font-size: 0.9rem; /* Adjust input font size */
+	}
+
+	.login__form-btn {
+		font-size: 1rem;
+		padding: 8px 0; /* Adjust button padding */
+	}
+}
+
+@media (max-width: 480px) {
+	.login__form {
+		max-width: 100%; /* Make form full width on very small screens */
+		padding: 1rem; /* Adjust padding */
+		margin: 0.5rem;
+	}
+
+	.login__form h2 {
+		font-size: 1.2rem; /* Adjust heading size */
+	}
+
+	.login__form-btn {
+		font-size: 0.9rem; /* Smaller button text */
+	}
+
+	.login__form p {
+		font-size: 0.9rem;
+	}
 }
