@@ -7,6 +7,7 @@ const productsRoutes = require("./src/products/routes");
 const shoppingCartRoutes = require("./src/shoppingCart/routes");
 const ordersRoutes = require("./src/orders/routes");
 const categoriesRoutes = require("./src/categories/routes");
+const pool = require("./db");
 
 const app = express();
 
@@ -31,8 +32,9 @@ app.use(
 	})
 );
 
-app.get("/", (req, res, next) => {
-	res.send("Hello world");
+app.get("/", async (req, res, next) => {
+	const result = await pool.query("SELECT NOW()");
+	res.send(result.rows[0]);
 });
 
 app.use("/api/users", usersRoutes);
